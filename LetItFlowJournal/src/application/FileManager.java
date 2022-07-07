@@ -12,11 +12,15 @@ public class FileManager {
     // Read(String), reads txt file and returns string of the entire file
     // Save(String, String), overrides the txt file with the string passed in
     // Change(String, String), changes the old filename to the new filename, updates csv entry and the filename
-    // GetLength(String), returns the number of lines in the txt file
-    // GetNLine(String, int), returns the nth line of the txt file
     // DetectCollision(String), returns true if the filename already exists in the csv file
-    // GetDateMade(String), returns the date the file was made
+    // changeDate(String), returns the date the file was made
     // Load() returns an arraylist of the filenames in the csv file
+    // encrypt() encrypts a string
+    // decrypt() decrypts a string
+        // The encrypt/decrypt can either be used by the Note class to let the user try to decrypt the private note while it's open, and we won't tell
+        // them if they got it or not, or we can have the Homescreen handle that when the user tries to open a note. We can save a boolean to the
+        // csv, and if the file is encrypted, you open up a prompt for the password. We can also keep track of how many attempts they've made,
+        // or just let them make unlimited attempts, which opens it up to a brute force attack.
     public static void New(String filename) {
         if (detectCollision(filename)) {
             System.out.println("File already exists"); // FIX
@@ -153,53 +157,7 @@ public class FileManager {
         }
     }
 
-    public static int getLength(String filename) {
-        if (detectCollision(filename)) {
-            String txtpath = filename + ".txt";
-            int length = 0;
-            try {
-                java.io.FileReader txt = new java.io.FileReader(txtpath);
-                java.io.BufferedReader reader = new java.io.BufferedReader(txt);
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    length++;
-                }
-                reader.close();
-            } catch (Exception e) {
-                System.out.println("Error getting length"); // FIX
-            }
-            return length;
-        } else {
-            System.out.println("File does not exist"); // FIX
-            return 0;
-        }
-    }
-
-    public static String getNLine(String filename, int n) {
-        if (detectCollision(filename)) {
-            String txtpath = filename + ".txt";
-            String text = "";
-            try {
-                java.io.FileReader txt = new java.io.FileReader(txtpath);
-                java.io.BufferedReader reader = new java.io.BufferedReader(txt);
-                String line;
-                int i = 1;
-                while ((line = reader.readLine()) != null) {
-                    if (i == n) {
-                        text = line;
-                    }
-                    i++;
-                }
-                reader.close();
-            } catch (Exception e) {
-                System.out.println("Error getting nth line"); // FIX
-            }
-            return text;
-        } else {
-            System.out.println("File does not exist"); // FIX
-            return "";
-        }
-    }
+    
     
     public static Boolean detectCollision(String filename) {
         return new java.io.File(filename + ".txt").exists();
@@ -249,5 +207,31 @@ public class FileManager {
             System.out.println("Error loading file"); // FIX
         }
         return notes;
+    }
+
+    public static String encrypt(String text, String key) {
+        // custom encrypt function so we don't need to worry about imports and dependencies
+        // Plus we aren't worrying about serious cybersecurity, but rather privacy from most people
+
+        // xor each character in the file with the key
+        // then return the encrypted string
+        String encrypted = "";
+        for (int i = 0; i < text.length(); i++) {
+            encrypted += (char) (text.charAt(i) ^ key.charAt(i % key.length()));
+        }
+        return encrypted;
+    }
+
+    public static String decrypt(String text, String key) {
+        // custom decrypt function so we don't need to worry about imports and dependencies
+        // Plus we aren't worrying about serious cybersecurity, but rather privacy from most people
+
+        // xor each character in the file with the key
+        // then return the decrypted string
+        String decrypted = "";
+        for (int i = 0; i < text.length(); i++) {
+            decrypted += (char) (text.charAt(i) ^ key.charAt(i % key.length()));
+        }
+        return decrypted;
     }
 }
