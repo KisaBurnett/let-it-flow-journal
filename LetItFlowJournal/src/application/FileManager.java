@@ -81,7 +81,7 @@ public class FileManager {
         }
     }
 
-    public static String Read(String filename) {
+    public static String Read(String filename, String password) {
         if (detectCollision(filename)) {
             String txtpath = filename + ".txt";
             String text = "";
@@ -96,21 +96,23 @@ public class FileManager {
             } catch (Exception e) {
                 System.out.println("Error loading file"); // FIX
             }
-            return text;
+            String decryptedText = decrypt(text, password);
+            return decryptedText;
         } else {
             System.out.println("File does not exist"); // FIX
             return "";
         }
     }
 
-    public static void Save(String filename, String text) {
+    public static void Save(String filename, String text, String password, String username) {
         if (detectCollision(filename)) {
             String txtpath = filename + ".txt";
+            String encrypted = encrypt(text, password);
             try {
                 java.io.FileWriter txtFile = new java.io.FileWriter(txtpath);
-                txtFile.write(text);
+                txtFile.write(encrypted);
                 txtFile.close();
-                changeDate(filename);
+                changeDate(filename, username, password);
             } catch (Exception e) {
                 System.out.println("Error saving file"); // FIX
             }
@@ -119,7 +121,7 @@ public class FileManager {
         }
     }
 
-    public static void Change(String oldFilename, String newFilename) {
+    public static void Change(String oldFilename, String newFilename, String username, String password) {
         if (detectCollision(oldFilename)) {
             java.io.File file = new java.io.File(oldFilename + ".txt");
             file.renameTo(new java.io.File(newFilename + ".txt"));
@@ -148,7 +150,7 @@ public class FileManager {
                 tempWriter.close();
                 csv.close();
                 reader.close();
-                changeDate(newFilename); // a bit inefficient since we can do it in the while loop above, but abstraction, ig
+                changeDate(newFilename, username, password); // a bit inefficient since we can do it in the while loop above, but abstraction, ig
             } catch (Exception e) {
                 System.out.println("Error changing file"); // FIX
             }
@@ -163,50 +165,74 @@ public class FileManager {
         return new java.io.File(filename + ".txt").exists();
     }
 
-    private static void changeDate(String filename) {
-        String csvpath = "notes.csv";
+    private static void changeDate(String filename, String username, String password) {
+        String csvpath = username + ".csv";
         try {
-            java.io.FileReader csv = new java.io.FileReader(csvpath);
-            java.io.BufferedReader reader = new java.io.BufferedReader(csv);
-            // make temp csv file
+            String[] csvText = Read(csvpath, password).split("\n");
+            String temptxt = "";
+            for (int i = 1; i < csvText.length; i++) {
+                if (csvText[i].split(",")[0].equals(filename)) {
+                    temptxt += filename + "," + csvText[i].split(",")[1] + "," + LocalDate.now().toString() + "\n";
+                } else {
+                    temptxt += csvText[i] + "\n";
+                }
+            }
+            // java.io.FileReader csv = new java.io.FileReader(csvpath);
+            // java.io.BufferedReader reader = new java.io.BufferedReader(csv);
+            // // make temp csv file
             java.io.File temp = new java.io.File("temp.csv");
             java.io.FileWriter tempWriter = new java.io.FileWriter(temp);
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.contains(filename)) {
-                    tempWriter.write(line.split(",")[0] + "," + line.split(",")[1] + "," + LocalDate.now().toString() + "\n");
-                }
-                else {
-                    // temp.write(line + "\n");
-                    tempWriter.write(line + "\n");
-                }
-            }
+            // String line;
+            // while ((line = reader.readLine()) != null) {
+            //     if (line.contains(filename)) {
+            //         tempWriter.write(line.split(",")[0] + "," + line.split(",")[1] + "," + LocalDate.now().toString() + "\n");
+            //     }
+            //     else {
+            //         // temp.write(line + "\n");
+            //         tempWriter.write(line + "\n");
+            //     }
+            // }
             // replace csv file with temp file
+            tempWriter.write(temptxt);
             temp.renameTo(new java.io.File(csvpath));
             tempWriter.close();
-            csv.close();
-            reader.close();
+            // csv.close();
+            // reader.close();
         } catch (Exception e) {
             System.out.println("Error changing file"); // FIX
         }
     }
 
-    public static ArrayList<String> Load() {
+    public static ArrayList<String> Load(String username, String password) {
         ArrayList<String> notes = new ArrayList<String>();
-        String csvpath = "notes.csv";
+        String csvpath = username + ".csv";
+        String text = "";
         try {
             java.io.FileReader csv = new java.io.FileReader(csvpath);
             java.io.BufferedReader reader = new java.io.BufferedReader(csv);
             String line;
             while ((line = reader.readLine()) != null) {
-                notes.add(line);
+                // notes.add(line);
+                text += line + "\n"; // will add a newline at the end of the file
             }
+
             reader.close();
         } catch (Exception e) {
             System.out.println("Error loading file"); // FIX
         }
-        return notes;
+        String decryptedText = decrypt(text, password);
+        // loop through lines in decryptedText and add to notes arraylist
+        // check first line of csv file is the same as the username
+        if (decryptedText.split("\n")[0].equals(username)) {
+            for (int i = 1; i < decryptedText.split("\n").length; i++) {
+                notes.add(decryptedText.split("\n")[i]);
+            }
+            return notes;
+        } else {
+            ArrayList<String> error = new ArrayList<String>();
+            return error;
+        }
     }
 
     public static String encrypt(String text, String key) {
