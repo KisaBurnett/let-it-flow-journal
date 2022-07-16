@@ -7,11 +7,11 @@ public class FileManager {
     // Usages:
         // When passing in a filename, you only use the title, ie the name of the file, but
         // without the .txt
-    // New(String), appends filename/date to the csv and creates the txt file
-    // Delete(String), deletes txt file and entry from csv file
+    // NewNote(String), appends filename/date to the csv and creates the txt file
+    // DeleteNote(String), deletes txt file and entry from csv file
     // Read(String), reads txt file and returns string of the entire file
     // Save(String, String), overrides the txt file with the string passed in
-    // Change(String, String), changes the old filename to the new filename, updates csv entry and the filename
+    // ChangeNote(String, String), changes the old filename to the new filename, updates csv entry and the filename
     // DetectCollision(String), returns true if the filename already exists in the csv file
     // changeDate(String), returns the date the file was made
     // Load() returns an arraylist of the filenames in the csv file
@@ -21,19 +21,19 @@ public class FileManager {
         // them if they got it or not, or we can have the Homescreen handle that when the user tries to open a note. We can save a boolean to the
         // csv, and if the file is encrypted, you open up a prompt for the password. We can also keep track of how many attempts they've made,
         // or just let them make unlimited attempts, which opens it up to a brute force attack.
-    public static void New(String filename) {
-        if (detectCollision(filename)) {
+    public static void NewNote(String filename, String user) {
+        if (detectCollision(user + "_" + filename, "txt")) {
             System.out.println("File already exists"); // FIX
         } else {
             LocalDate date = LocalDate.now();
             String dateString = date.toString();
             String entry = filename + "," + dateString + "," + dateString + "\n";
-            String csvpath = "notes.csv";
+            String csvpath = user + ".csv";
             try {
                 java.io.FileWriter csv = new java.io.FileWriter(csvpath, true);
                     csv.write(entry + "\n");
                     csv.close();
-                java.io.FileWriter txtFile = new java.io.FileWriter(filename + ".txt");
+                java.io.FileWriter txtFile = new java.io.FileWriter(user + "_" + filename + ".txt");
                     txtFile.close();
             } catch (Exception e) {
                 System.out.println("Error creating file"); // FIX
@@ -41,11 +41,11 @@ public class FileManager {
         }
     }
 
-    public static void Delete(String filename) {
-        if (detectCollision(filename)) {
-            java.io.File file = new java.io.File(filename + ".txt");
+    public static void DeleteNote(String filename, String user) {
+        if (detectCollision(user + "_" + filename, "txt")) {
+            java.io.File file = new java.io.File(user + "_" + filename + ".txt");
             file.delete();
-            String csvpath = "notes.csv";
+            String csvpath = user + ".csv";
             // loop through csv lines and look for filename in first column
             // if found, delete that line
             try {
@@ -81,9 +81,12 @@ public class FileManager {
         }
     }
 
-    public static String Read(String filename, String password) {
-        if (detectCollision(filename)) {
-            String txtpath = filename + ".txt";
+    public static String Read(String filename, String password, String user, String ext) {
+        if (detectCollision(user + "_" + filename, ext) || ext.equals("csv")) { // FIX
+            String txtpath = user + "_" + filename + "." + ext;
+            if (ext.equals("csv")) { // FIX
+                txtpath = filename + ".csv";
+            }
             String text = "";
             try {
                 java.io.FileReader txt = new java.io.FileReader(txtpath);
@@ -105,8 +108,8 @@ public class FileManager {
     }
 
     public static void Save(String filename, String text, String password, String username) {
-        if (detectCollision(filename)) {
-            String txtpath = filename + ".txt";
+        if (detectCollision(username + "_" + filename, "txt")) {
+            String txtpath = username + "_" + filename + ".txt";
             String encrypted = encrypt(text, password);
             try {
                 java.io.FileWriter txtFile = new java.io.FileWriter(txtpath);
@@ -121,11 +124,11 @@ public class FileManager {
         }
     }
 
-    public static void Change(String oldFilename, String newFilename, String username, String password) {
-        if (detectCollision(oldFilename)) {
-            java.io.File file = new java.io.File(oldFilename + ".txt");
-            file.renameTo(new java.io.File(newFilename + ".txt"));
-            String csvpath = "notes.csv";
+    public static void ChangeNote(String oldFilename, String newFilename, String username, String password) {
+        if (detectCollision(username + "_" + oldFilename, "txt")) {
+            java.io.File file = new java.io.File(username + "_" + oldFilename + ".txt");
+            file.renameTo(new java.io.File(username + "_" + newFilename + ".txt"));
+            String csvpath = username + ".csv";
             // loop through csv lines and look for oldFilename in first column
             // if found, replace that line with newFilename
             try {
@@ -161,14 +164,14 @@ public class FileManager {
 
     
     
-    public static Boolean detectCollision(String filename) {
-        return new java.io.File(filename + ".txt").exists();
+    public static Boolean detectCollision(String filename, String ext) {
+        return new java.io.File(filename + "." + ext).exists();
     }
 
     private static void changeDate(String filename, String username, String password) {
         String csvpath = username + ".csv";
         try {
-            String[] csvText = Read(csvpath, password).split("\n");
+            String[] csvText = Read(csvpath, password, username, "txt").split("\n");
             String temptxt = "";
             for (int i = 1; i < csvText.length; i++) {
                 if (csvText[i].split(",")[0].equals(filename)) {
@@ -259,5 +262,57 @@ public class FileManager {
             decrypted += (char) (text.charAt(i) ^ key.charAt(i % key.length()));
         }
         return decrypted;
+    }
+
+    public static String NewUser(String username, String password) { // NEEDS TESTING
+        // create new csv file with username and encrypted with password
+        // return either "success" or "error"
+        if (detectCollision(username, "csv")) {
+            return "Error: User already exists";
+        }
+        try {
+            java.io.FileWriter csv = new java.io.FileWriter(username + ".csv");
+            csv.write(encrypt(username + "\n", password)); // Will need to account for the newline in future logins
+            csv.close();
+            return "success";
+        } catch (Exception e) {
+            return "failure";
+        }
+    }
+
+    public static String login(String username, String password) { // Need to work on errors to make them more security aligned (not as informative to error)
+                                                                // NEEDS TESTING
+        if (detectCollision(username, "csv")) {
+            String csvFile = Read(username + ".csv", password, username, "txt");
+            // compare first line to username
+            if (csvFile.split("\n")[0].equals(username)) {
+                return "LOGIN";
+            } else {
+                return "Error: Incorrect username or password";
+            }
+        }
+        else {
+            return "Error: User does not exist";
+        }
+    }
+
+    public static String logout(String username, String password) { // NEEDS TESTING
+        return "LOGOUT";
+    }
+
+    public static void deleteUser(String username, String password) { // NEEDS TESTING
+        // loop through csv file and delete all files with username_name.txt
+        // then delete csv file // NEVERMIND, the DeleteNote() does that automatically
+        String csvpath = username + ".csv";
+        try {
+            String[] csvText = Read(csvpath, password, username, "txt").split("\n");
+            for (int i = 1; i < csvText.length; i++) {
+                DeleteNote(csvText[i].split(",")[0], username);
+            }
+            java.io.File csv = new java.io.File(csvpath);
+            csv.delete();
+        } catch (Exception e) {
+            System.out.println("Error deleting user"); // FIX
+        }
     }
 }
