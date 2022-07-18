@@ -1,10 +1,11 @@
-package application;
+package application.controller;
 
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.IOException;
 
+import application.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
