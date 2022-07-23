@@ -9,11 +9,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
-/* Serves as the controller for the main menu of the program.
+/** Serves as the controller for the main menu of the program.
  * Allows user to create a new entry, and view, edit, and delete existing entries.
  * Also provides option for motivational pop-up, and allows user to log out or quit the program.
  * 
- * @author Kisa Burnett */
+ * @author Kisa Burnett
+ * @author Matthew Darragh */
 public class MenuController implements Initializable{
 	@FXML
 	private ListView<String> savedEntries;
