@@ -38,17 +38,22 @@
    <left>
       <VBox prefHeight="623.0" prefWidth="374.0" spacing="20.0" style="-fx-background-color: #199db8;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="createEntry" mnemonicParsing="false" prefHeight="30.0" prefWidth="128.0" text="Create New Entry" textAlignment="CENTER">
+            <Button fx:id="createEntry" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Create New Entry" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="motivationBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="128.0" text="Motivate Me!" textAlignment="CENTER">
+            <Button fx:id="openButton" disable="true" mnemonicParsing="false" onAction="#switchToEditEntry" prefHeight="30.0" prefWidth="130.0" text="Open">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button fx:id="logOut" mnemonicParsing="false" prefHeight="30.0" prefWidth="128.0" text="Log Out" textAlignment="CENTER">
+            <Button fx:id="motivationBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Motivate Me!" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="logOut" mnemonicParsing="false" onAction="#switchToLoginForm1" prefHeight="30.0" prefWidth="130.0" text="Log Out" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>

@@ -11,21 +11,26 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+
 public class LoginController {
 	
-	//Controller LoginForm1 controls the loginform scene we will need to call FileManager to look for a username/password and allow users to create a new username/pw
-public LoginController() {
+	/** Controller LoginForm1 controls the loginform scene we will need to call FileManager to look for a 
+ 	* username/password and allow users to create a new username/pw.
+ 	* @author Royd Alex Salinas
+ 	*/
+	public LoginController() {
 		
 	}
 	
-	/*
+	/**
 	 * variables for elements in
 	 * fxml file file loginform scene
 	 * button is the login button
 	 * wrongLogin displays when something went wrong
 	 * username is username
 	 * password is password!
-	 * notice that i placed an @FXML on each item, you need to do that to connect the elements to the corresponding element in the fxml file
+	 * notice that i placed an @FXML on each item, you need to do that to connect the elements to the 
+	 * corresponding element in the fxml file
 	 */
 	@FXML
 	private Button button;
@@ -41,15 +46,13 @@ public LoginController() {
 	private PasswordField password;
 	
 	
-	
-	
-	//method is called when a user presses "log in" button
+	/** method is called when a user presses "log in" button*/
 	@FXML
 	public void userLogin(ActionEvent event) throws IOException {
 		checkLogin();
 	}
 	
-	//method is called to check login info, its all placeholders right now but just using import methods from fx to see possibilities
+	/** method is called to check login info, its all placeholders right now but just using import methods from fx to see possibilities */
 	@FXML
 	private void checkLogin() throws IOException {
 		Main m = new Main();
