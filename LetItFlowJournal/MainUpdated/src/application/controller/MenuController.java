@@ -69,7 +69,7 @@ public class MenuController implements Initializable{
 
 		
 		/** Check to see if the user has any files saved onto their account */
-		if (entries.isEmpty()) {
+		if (entries.isEmpty() || entries.get(0).contentEquals("")) {
 			savedEntries.getItems().add("You have no saved files.");
 		}
 		/** If entries has fileNames, add those entries to the ListView */

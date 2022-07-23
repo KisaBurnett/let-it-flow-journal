@@ -7,6 +7,7 @@ import java.util.Scanner;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 /** Serves as the controller for the edit entry view of the program.
  * Allows user to compose and edit an entry, as well as save it to a file.
@@ -20,6 +21,8 @@ public class EntryController {
 	private Button saveButton;
 	@FXML
 	private Button motivateButton;
+	@FXML
+	private TextField entryTitle;
 	@FXML
 	private TextArea entryText;
 	
@@ -45,7 +48,8 @@ public class EntryController {
 		}
 		
 		
-		/** Place previously saved entry in the editable text area.*/
+		/** Place previously saved entry in the editable text areas.*/
+		entryTitle.setText(fileName);
 		entryText.setText(entryContents);
 	}
 }
