@@ -42,7 +42,7 @@
                   </MenuBar>
                   <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: lightblue; -fx-border-color: #8dbfc9;">
                     <items>
-                      <Button fx:id="mainButton" mnemonicParsing="false" text="Main Menu" />
+                      <Button fx:id="mainButton" mnemonicParsing="false" onAction="#backToMain" text="Main Menu" />
                         <Button fx:id="saveButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Save" />
                         <Button fx:id="motivateButton" layoutX="101.0" layoutY="10.0" mnemonicParsing="false" text="Motivate Me!" />
                     </items>

@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
 /**main driver for loginForm scene, will probably end up being our main driver to start the program*/
@@ -13,7 +12,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/application/view/MainScreen.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/application/view/TestLauncher.fxml"));
 			
 			Scene scene = new Scene(root,1280,780);
 			/**Had lots a problem getting the window size to be adjustable, caused tears and mutation of images used, 
