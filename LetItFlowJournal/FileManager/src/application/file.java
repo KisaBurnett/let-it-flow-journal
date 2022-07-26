@@ -1,5 +1,6 @@
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 public class file {
@@ -54,7 +55,9 @@ public class file {
                 // }
                 // reader.close();
                 // txt.close();
-                fileContent = Files.readString(new File(txtpath).toPath());
+                // fileContent = Files.lines(new File(txtpath).toPath()).reduce("", String::concat);
+                byte[] bytes = Files.readAllBytes(Paths.get(txtpath));
+                fileContent = new String(bytes);
             } catch (Exception e) {
                 System.out.println("Error loading file"); // FIX
             }
@@ -91,7 +94,7 @@ public class file {
     public static void Save(String filename, String text, String password, String username, String ext) {
         if (detectCollision(filename, ext)) {
             String txtpath = filename + "." + ext;
-            String encrypted = encrypt(text.strip(), password);
+            String encrypted = encrypt(text.trim(), password);
             try {
                 java.io.FileWriter txtFile = new java.io.FileWriter(txtpath);
                 txtFile.write(encrypted);
