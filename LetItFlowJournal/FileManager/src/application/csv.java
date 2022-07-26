@@ -28,7 +28,7 @@ public class csv {
         /* loop through csv lines and look for filename in first column
         if found, delete that line */
         try {
-            // make temp file
+            /* make temp file */
             String temp_string = "temp";
             java.util.Random rand = new Random();
             while (file.detectCollision(temp_string, "csv")) { /* in case a user names themselves temp or something similar. This tries to avoid collision and be dynamic */
