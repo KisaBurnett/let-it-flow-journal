@@ -60,7 +60,6 @@ public class LoginController {
 		
 		private Parent root;
 		
-		private String currString;
 		
 		
 		
@@ -70,16 +69,20 @@ public class LoginController {
 		@FXML
 		public void userLogin(ActionEvent event) throws IOException, InterruptedException {
 			
-			currString = FileManager.login(username.getText(),password.getText());
+			//object filemanager created with username and password
+			FileManager CurrUser = new FileManager(username.getText(),password.getText());
 			
-			if (currString.contains("LOGIN")) {
+			//check to see if user exists and goes to main menu if successful
+			if (FileManager.UserExists(username.getText())) {
 				
 				wrongLogin.setText("Successful log in!");
-				root = FXMLLoader.load(getClass().getResource("/application/view/MainScreen.fxml"));
+				MenuController.switchToMainMenu(CurrUser);
+				
+				/*root = FXMLLoader.load(getClass().getResource("/application/view/MainScreen.fxml"));
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
 				scene = new Scene(root);
 				stage.setScene(scene);
-				stage.show();	
+				stage.show();	*/
 			}
 			
 			else {
@@ -96,6 +99,7 @@ public class LoginController {
 			stage.setScene(scene);
 			stage.show();
 		}
+		
 
 }
 	

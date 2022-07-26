@@ -2,10 +2,9 @@ package application.controller;
 
 import java.io.IOException;
 import java.io.File;
-import java.net.URL;
 
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.Optional;
 import java.util.Scanner;
 
 import application.model.FileManager;
@@ -14,12 +13,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 /** Serves as the controller for the main menu of the program.
@@ -28,7 +31,7 @@ import javafx.stage.Stage;
  * 
  * @author Kisa Burnett
  * @author Matthew Darragh */
-public class MenuController implements Initializable{
+public class MenuController {
 	@FXML
 	private ListView<String> savedEntries;
 	@FXML
@@ -39,6 +42,10 @@ public class MenuController implements Initializable{
 	private Button openButton;
 	@FXML
 	private Button motivationBtn;
+	@FXML
+	private Menu menuFile;
+	@FXML
+	private MenuBar menuBar;
 	
 	/* ArrayList that will store the returned fileNames from Load() */
 	/* Currently Load() returns an empty the empty ArrayList<String> error */
@@ -46,15 +53,16 @@ public class MenuController implements Initializable{
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	private String entryListFile;
 	
 	/** Generates the list view of saved entries on the menu view. */
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void switchToMainMenu(String fileName) {
 		entries = new ArrayList<String>();
+		entryListFile = fileName;
 		
 		/** Temporary method to load a test .csv file with a list of journal entry names. */
 		try {
-			File file = new File("TestFiles/entryNames.csv");
+			File file = new File(entryListFile);
 			Scanner scan = new Scanner(file);
 			
 			while(scan.hasNextLine()) {
@@ -89,14 +97,22 @@ public class MenuController implements Initializable{
 
 	/** Switches to the LoginForm scene so user can log in as a different user. */
 	public void switchToLoginForm1(ActionEvent event) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("/application/view/LoginForm1.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+		/** Alert to confirm that user wants to log out. */
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Log Out");
+		alert.setContentText("Do you want to log out?");
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		if (result.isPresent() && result.get() == ButtonType.OK ) {
+			root = FXMLLoader.load(getClass().getResource("/application/view/LoginForm1.fxml"));
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
 	
-	/** Switches to the EditEntry scene so user can compose a new entry. */
+	/** Switches to the EditEntry scene so user can edit an entry. */
 	public void switchToEditEntry(ActionEvent event) throws IOException {
 		String fileName = savedEntries.getSelectionModel().getSelectedItem();
 		
@@ -104,11 +120,32 @@ public class MenuController implements Initializable{
 		root = loader.load();
 		
 		EntryController entryController = loader.getController();
-		entryController.editEntry(fileName);
+		/** Passes in the name of the entry file, and the name of the file containing all entry names. */
+		entryController.editEntry(fileName, entryListFile);
 		
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	/** Switches to EditEntry and sets up blank form for user to compose and save a new entry. */
+	public void switchToNewEntry(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/EditEntry.fxml"));
+		root = loader.load();
+		
+		EntryController entryController = loader.getController();
+		/** Passes in the name of the file containing all entry names. */
+		entryController.newEntry(entryListFile);
+		
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	/*TO-DO:
+	 * Quit
+	 * Delete file
+	 * Generate motivational quote from motivation class*/
 }
