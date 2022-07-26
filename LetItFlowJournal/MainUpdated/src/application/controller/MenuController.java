@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.File;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 
 import application.model.FileManager;
@@ -15,8 +16,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 /** Serves as the controller for the main menu of the program.
@@ -36,6 +42,10 @@ public class MenuController {
 	private Button openButton;
 	@FXML
 	private Button motivationBtn;
+	@FXML
+	private Menu menuFile;
+	@FXML
+	private MenuBar menuBar;
 	
 	/* ArrayList that will store the returned fileNames from Load() */
 	/* Currently Load() returns an empty the empty ArrayList<String> error */
@@ -87,11 +97,19 @@ public class MenuController {
 
 	/** Switches to the LoginForm scene so user can log in as a different user. */
 	public void switchToLoginForm1(ActionEvent event) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("/application/view/LoginForm1.fxml"));
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+		/** Alert to confirm that user wants to log out. */
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Log Out");
+		alert.setContentText("Do you want to log out?");
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		if (result.isPresent() && result.get() == ButtonType.OK ) {
+			root = FXMLLoader.load(getClass().getResource("/application/view/LoginForm1.fxml"));
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
 	
 	/** Switches to the EditEntry scene so user can edit an entry. */
@@ -111,9 +129,23 @@ public class MenuController {
 		stage.show();
 	}
 	
+	/** Switches to EditEntry and sets up blank form for user to compose and save a new entry. */
+	public void switchToNewEntry(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/EditEntry.fxml"));
+		root = loader.load();
+		
+		EntryController entryController = loader.getController();
+		/** Passes in the name of the file containing all entry names. */
+		entryController.newEntry(entryListFile);
+		
+		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
 	/*TO-DO:
-	 * Switch to edit entry to compose a new entry
-	 * Log out
 	 * Quit
+	 * Delete file
 	 * Generate motivational quote from motivation class*/
 }

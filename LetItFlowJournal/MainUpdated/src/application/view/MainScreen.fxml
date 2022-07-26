@@ -14,22 +14,16 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1280.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MenuController">
    <top>
-      <MenuBar style="-fx-background-color: lightblue; -fx-border-color: #8dbfc9;" BorderPane.alignment="CENTER">
+      <MenuBar fx:id="menuBar" style="-fx-background-color: lightblue; -fx-border-color: #8dbfc9;" BorderPane.alignment="CENTER">
          <menus>
-            <Menu mnemonicParsing="false" text="File">
+            <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Open" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" text="Quit" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                <items>
                   <MenuItem mnemonicParsing="false" text="Delete" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="How to Use" />
                </items>
             </Menu>
          </menus>
@@ -38,7 +32,7 @@
    <left>
       <VBox prefHeight="623.0" prefWidth="374.0" spacing="20.0" style="-fx-background-color: #199db8;" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="createEntry" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Create New Entry" textAlignment="CENTER">
+            <Button fx:id="createEntry" mnemonicParsing="false" onAction="#switchToNewEntry" prefHeight="30.0" prefWidth="130.0" text="Create New Entry" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>
