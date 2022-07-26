@@ -6,8 +6,8 @@ public class FileManager {
     private String user;
     private String password;
     
-    
-    public static Boolean Login(String username, String password) {return csv.verifyUser(username, password);} // NEED TO CALL FileManager INIT AFTER SUCCESS
+
+    public static Boolean Login(String username, String password) {return csv.verifyUser(username, password);} /* NEED TO CALL FileManager INIT AFTER SUCCESS */
     public static Boolean UserExists(String user) {return new java.io.File(user + ".csv").exists();}
 
 
@@ -30,9 +30,9 @@ public class FileManager {
     public void DeleteNote(String filename)                         {note.DeleteNote(filename, user, password);}
     public void NewNote(String filename)                            {note.NewNote(filename, user, password);}
 
-    //public String ReadCSV() {return file.Read(user, password, "csv");}
-    // public static String logout(String username, String password) { // NEEDS TESTING
-    //     return "LOGOUT";
-    // }
+    /* public String ReadCSV() {return file.Read(user, password, "csv");} */
+    /* public static String logout(String username, String password) { // NEEDS TESTING
+        return "LOGOUT";
+    } */
     
 }

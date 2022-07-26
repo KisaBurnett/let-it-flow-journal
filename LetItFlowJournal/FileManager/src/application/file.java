@@ -13,11 +13,11 @@ public class file {
 
 
     public static String encrypt(String text, String key) {
-        // custom encrypt function so we don't need to worry about imports and dependencies
-        // Plus we aren't worrying about serious cybersecurity, but rather privacy from most people
+        /* custom encrypt function so we don't need to worry about imports and dependencies
+        Plus we aren't worrying about serious cybersecurity, but rather privacy from most people */
 
-        // xor each character in the file with the key
-        // then return the encrypted string
+        /* xor each character in the file with the key
+        then return the encrypted string */
         String encrypted = "";
         for (int i = 0; i < text.length(); i++) {
             encrypted += (char) (text.charAt(i) ^ key.charAt(i % key.length()));
@@ -28,11 +28,11 @@ public class file {
 
 
     public static String decrypt(String text, String key) {
-        // custom decrypt function so we don't need to worry about imports and dependencies
-        // Plus we aren't worrying about serious cybersecurity, but rather privacy from most people
+        /* custom decrypt function so we don't need to worry about imports and dependencies
+        Plus we aren't worrying about serious cybersecurity, but rather privacy from most people */
 
-        // xor each character in the file with the key
-        // then return the decrypted string
+        /* xor each character in the file with the key
+        then return the decrypted string */
         String decrypted = "";
         for (int i = 0; i < text.length(); i++) {
             decrypted += (char) (text.charAt(i) ^ key.charAt(i % key.length()));
@@ -42,29 +42,19 @@ public class file {
 
 
     public static String Read(String filename, String password, String ext) {
-        if (file.detectCollision(filename, ext)) { // FIX
+        if (file.detectCollision(filename, ext)) { /* Fix */
             String txtpath = filename + "." + ext;
-            String text = "";
             String fileContent = "";
             try {
-                // java.io.FileReader txt = new java.io.FileReader(txtpath);
-                // java.io.BufferedReader reader = new java.io.BufferedReader(txt);
-                // String line;
-                // while ((line = reader.readLine()) != null) {
-                //     text += line + "\n"; // will add a newline at the end of the file
-                // }
-                // reader.close();
-                // txt.close();
-                // fileContent = Files.lines(new File(txtpath).toPath()).reduce("", String::concat);
                 byte[] bytes = Files.readAllBytes(Paths.get(txtpath));
                 fileContent = new String(bytes);
             } catch (Exception e) {
-                System.out.println("Error loading file"); // FIX
+                System.out.println("Error loading file"); /* Fix */
             }
             String decryptedText = decrypt(fileContent, password);
             return decryptedText;
         } else {
-            System.out.println("File does not exist"); // FIX
+            System.out.println("File does not exist"); /* Fix */
             return "";
         }
     }
@@ -74,18 +64,18 @@ public class file {
     public static void ChangeFilename(String oldFilename, String newFilename, String username, String password) {
         if (detectCollision(username + "_" + oldFilename, "txt")) {
             if (detectCollision(username + "_" + newFilename, "txt")) {
-                System.out.println("File already exists with that name"); // FIX
+                System.out.println("File already exists with that name"); /* Fix */
             } else {
                 File oldFile = new File(username + "_" + oldFilename + ".txt");
                 File newFile = new File(username + "_" + newFilename + ".txt");
                 if (oldFile.renameTo(newFile)) {
                     csv.ChangeFile(oldFilename, newFilename, username, password);
                 } else {
-                    System.out.println("Error renaming file"); // FIX
+                    System.out.println("Error renaming file"); /* Fix */
                 }
             }
         } else {
-            System.out.println("File does not exist"); // FIX
+            System.out.println("File does not exist"); /* Fix */
         }
     }
 
@@ -103,10 +93,10 @@ public class file {
                     csv.changeDate(filename, username, password);
                 }
             } catch (Exception e) {
-                System.out.println("Error saving file"); // FIX
+                System.out.println("Error saving file"); /* Fix */
             }
         } else {
-            System.out.println("File does not exist"); // FIX
+            System.out.println("File does not exist"); /* Fix */
         }
     }
 
