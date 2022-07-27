@@ -43,15 +43,18 @@ public class csv {
             /* read csv file line by line, then split the string on ','
             check if first token is filename, if so, delete that line */
             String[] lines = file_text.split("\n");
+            String new_text = user + "\n";
             for (int i = 0; i < lines.length; i++) {
                 String[] tokens = lines[i].split(",");
                 if (tokens[0].equals(filename)) {
                     continue;
                 } else {
-                    tempWriter.write(lines[i] + "\n");
+                    /* tempWriter.write(lines[i] + "\n"); */
+                    new_text += lines[i] + "\n";
                 }
             }
             /* replace csv file with temp file */
+            tempWriter.write(file.encrypt(new_text, password));
             temp.renameTo(new java.io.File(csvpath));
             tempWriter.close();
 
