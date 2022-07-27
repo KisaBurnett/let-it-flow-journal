@@ -12,7 +12,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/application/view/TestLauncher.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/application/view/LoginForm1.fxml"));
 			
 			Scene scene = new Scene(root,1280,780);
 			/**Had lots a problem getting the window size to be adjustable, caused tears and mutation of images used, 

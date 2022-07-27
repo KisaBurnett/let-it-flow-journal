@@ -1,13 +1,8 @@
 package application.controller;
+import application.model.FileManager;
 
 import java.io.IOException;
-import java.io.File;
-
-import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Scanner;
-
-import application.model.FileManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -22,7 +17,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 /** Serves as the controller for the main menu of the program.
@@ -32,6 +26,8 @@ import javafx.stage.Stage;
  * @author Kisa Burnett
  * @author Matthew Darragh */
 public class MenuController {
+	
+
 	@FXML
 	private ListView<String> savedEntries;
 	@FXML
@@ -47,42 +43,20 @@ public class MenuController {
 	@FXML
 	private MenuBar menuBar;
 	
-	/* ArrayList that will store the returned fileNames from Load() */
-	/* Currently Load() returns an empty the empty ArrayList<String> error */
-	private ArrayList<String> entries;
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	private String entryListFile;
+	private FileManager CurrUser;
 	
 	/** Generates the list view of saved entries on the menu view. */
-	public void switchToMainMenu(String fileName) {
-		entries = new ArrayList<String>();
-		entryListFile = fileName;
-		
-		/** Temporary method to load a test .csv file with a list of journal entry names. */
-		try {
-			File file = new File(entryListFile);
-			Scanner scan = new Scanner(file);
-			
-			while(scan.hasNextLine()) {
-				entries.add(scan.nextLine());
-			}
-			
-			scan.close();
-		}
-		catch (IOException e) {
-			System.out.println("Error: Entry name file not found. Please check the name and try again.");
-		}
-
-		
+	public void switchToMainMenu() {		
 		/** Check to see if the user has any files saved onto their account */
-		if (entries.isEmpty() || entries.get(0).contentEquals("")) {
+		if (CurrUser.Load().isEmpty() || CurrUser.Load().get(0).contentEquals("")) {
 			savedEntries.getItems().add("You have no saved files.");
 		}
 		/** If entries has fileNames, add those entries to the ListView */
 		else {
-			savedEntries.getItems().addAll(entries);
+			savedEntries.getItems().addAll(CurrUser.Load());
 			
 			savedEntries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
@@ -121,7 +95,8 @@ public class MenuController {
 		
 		EntryController entryController = loader.getController();
 		/** Passes in the name of the entry file, and the name of the file containing all entry names. */
-		entryController.editEntry(fileName, entryListFile);
+		entryController.setEntryData(CurrUser);
+		entryController.editEntry(fileName);
 		
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
@@ -136,12 +111,17 @@ public class MenuController {
 		
 		EntryController entryController = loader.getController();
 		/** Passes in the name of the file containing all entry names. */
-		entryController.newEntry(entryListFile);
+		entryController.setEntryData(CurrUser);
+		entryController.newEntry();
 		
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	public void setData(FileManager user) {
+		this.CurrUser = user;
 	}
 	
 	/*TO-DO:

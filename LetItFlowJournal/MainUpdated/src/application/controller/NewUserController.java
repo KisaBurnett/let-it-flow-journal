@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
-/**
+/*
  * New User Controller, user can create a new account or press cancel to move back to the login screen.
  * 
  * @author Royd Salinas
@@ -43,7 +43,6 @@ public class NewUserController {
 	
 	private Scene scene;
 	
-	private String currString;
 	
 	@FXML
 	private Label labelText;
@@ -51,19 +50,18 @@ public class NewUserController {
 	//if a create user button is pressed we call FileManager to set new userdata and is thrown to project folder.
 	@FXML
 	public void CreateUser(ActionEvent event) throws IOException, InterruptedException {
-		currString = FileManager.NewUser(username.getText(),password.getText());
 		
-		if(currString.contentEquals("failure") || currString.contentEquals("Error: User already exists"))
+		//newUser object is created.
+		FileManager NewUser1 = new FileManager(username.getText(),password.getText());
+		
+		//checks if user account was created successfully, if it is then we go back to login, might change to go to main menu.
+		if(!FileManager.UserExists(username.getText()))
 		{
 			labelText.setText("Username taken, please try again");
 		}
 		else
 		{
 			labelText.setText("Created User successfully");
-		}
-		if (currString.contentEquals("success"))
-		{
-			Thread.sleep(1000);
 			Parent root = FXMLLoader.load(getClass().getResource("/application/view/LoginForm1.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
 			scene = new Scene(root);
