@@ -47,6 +47,11 @@
                   <Font size="14.0" />
                </font>
             </Button>
+            <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteEntry" prefHeight="30.0" prefWidth="130.0" text="Delete" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
             <Button fx:id="logOut" mnemonicParsing="false" onAction="#switchToLoginForm1" prefHeight="30.0" prefWidth="130.0" text="Log Out" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />

@@ -3,8 +3,11 @@ import application.model.FileManager;
 
 import java.io.IOException;
 import java.util.Optional;
+
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +45,8 @@ public class MenuController {
 	private Menu menuFile;
 	@FXML
 	private MenuBar menuBar;
+	@FXML 
+	private Button delete;
 	
 	private Stage stage;
 	private Scene scene;
@@ -119,10 +124,33 @@ public class MenuController {
 		stage.setScene(scene);
 		stage.show();
 	}
+	/** Method to Test Deleting, will be changed to quit the application once deleting is fixed */
+	public void deleteEntry(ActionEvent event) throws IOException {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Quit Program");
+			alert.setContentText("Are you sure you want to quit?");
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if (result.isPresent() && result.get() == ButtonType.OK ) {
+				/** Below is a temporary method of how I am getting the selected entry and then deleting it and removing it from the listView */
+				ObservableList<String> selectedFile = savedEntries.getSelectionModel().getSelectedItems();
+				int selectedID = savedEntries.getSelectionModel().getSelectedIndex();
+				CurrUser.DeleteNote(selectedFile.get(0));
+				savedEntries.getItems().remove(selectedID);
+				
+				/** Commented out code is what is used to quit application once delete is fixed 
+				Platform.exit();
+				System.exit(0); 
+				*/
+			}
+			
+		
+	}
 	
 	public void setData(FileManager user) {
 		this.CurrUser = user;
 	}
+	
 	
 	/*TO-DO:
 	 * Quit
