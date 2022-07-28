@@ -1,6 +1,5 @@
 package application.controller;
 
-
 import javafx.event.ActionEvent;
 import java.io.IOException;
 
@@ -58,43 +57,37 @@ public class LoginController {
 		
 		private Parent root;
 		
-		
-		
-		
-		
 		/** method is called when a user presses "log in" button
+		 * creates object of the current users username password and passes it to main menu and loads their entries.
 		 * @throws InterruptedException */
 		@FXML
 		public void userLogin(ActionEvent event) throws IOException, InterruptedException {
 			
-			//object filemanager created with username and password
-			FileManager CurrUser = new FileManager(username.getText(),password.getText());
-			
+			wrongLogin.setText("");
+
 			//check to see if user exists and goes to main menu if successful
-			if (FileManager.UserExists(username.getText())) {
+			if (FileManager.Login(username.getText(),password.getText())) {
+				
+				//object filemanager created with username and password
+				FileManager CurrUser = new FileManager(username.getText(),password.getText());
 				
 				wrongLogin.setText("Successful log in!");
-				//throwing object of user to main menu.
-				
+				//loads main screen
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/MainScreen.fxml"));
 				root = loader.load();
 				MenuController Controller = loader.getController();
 				Controller.setData(CurrUser);
-				Controller.switchToMainMenu();
-				//not sure if we need this yet
-				//root = FXMLLoader.load(getClass().getResource("/application/view/MainScreen.fxml"));		
+				Controller.switchToMainMenu();	
 				stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-				
 				scene = new Scene(root);
 				stage.setScene(scene);
 				stage.show();
 			}
 			
 			else {
-				wrongLogin.setText("Wrong username or password!");
+				wrongLogin.setText("Wrong username or password! Please try again.");
 			}
 		}
-		
 		
 		@FXML
 		public void newUser(ActionEvent event) throws IOException {
@@ -104,8 +97,4 @@ public class LoginController {
 			stage.setScene(scene);
 			stage.show();
 		}
-		
-		
-
 }
-	
