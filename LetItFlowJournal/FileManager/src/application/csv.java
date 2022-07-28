@@ -14,7 +14,7 @@ public class csv {
             String csvFile = file.Read(user, password, "csv");
             csvFile = csvFile.trim() + "\n";
             csvFile += entry;
-            System.out.println(csvFile);
+            /* System.out.println(csvFile); */
             file.Save(user, csvFile, password, user, "csv");
         } catch (Exception e) {
             System.out.println("Error adding file to csv"); /* Fix */
@@ -55,8 +55,15 @@ public class csv {
             }
             /* replace csv file with temp file */
             tempWriter.write(file.encrypt(new_text, password));
-            temp.renameTo(new java.io.File(csvpath));
             tempWriter.close();
+            /* delete old csv file */
+            new java.io.File(user + ".csv").delete();
+            /* rename temp file to csv file */
+            temp.renameTo(new java.io.File(user + ".csv"));
+            /* See if temp file still exists, and if so, delete it */
+            if (file.detectCollision(temp_string, "csv")) {
+                new java.io.File(temp_string+".csv").delete();
+            }
 
         } catch (Exception e) {
             System.out.println("Error deleting file"); /* Fix */
@@ -92,8 +99,15 @@ public class csv {
 
             /* replace csv file with temp file */
             tempWriter.write(temptxt);
-            temp.renameTo(new java.io.File(username + ".csv"));
             tempWriter.close();
+            /* delete old csv file */
+            new java.io.File(username + ".csv").delete();
+            /* rename temp file to csv file */
+            temp.renameTo(new java.io.File(username + ".csv"));
+            /* See if temp file still exists, and if so, delete it */
+            if (file.detectCollision(temp_string, "csv")) {
+                new java.io.File(temp_string+".csv").delete();
+            }
         } catch (Exception e) {
             System.out.println("Error changing file"); /* Fix */
         }
@@ -129,8 +143,15 @@ public class csv {
 
             /* replace csv file with temp file */
             tempWriter.write(temptxt);
-            temp.renameTo(new java.io.File(username + ".csv"));
             tempWriter.close();
+            /* delete old csv file */
+            new java.io.File(username + ".csv").delete();
+            /* rename temp file to csv file */
+            temp.renameTo(new java.io.File(username + ".csv"));
+            /* See if temp file still exists, and if so, delete it */
+            if (file.detectCollision(temp_string, "csv")) {
+                new java.io.File(temp_string+".csv").delete();
+            }
 
             File file = new File(username + "_" + oldFilename + ".txt");
             file.renameTo(new File(username + "_" + newFilename + ".txt"));
