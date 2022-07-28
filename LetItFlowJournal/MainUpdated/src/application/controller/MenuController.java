@@ -56,18 +56,26 @@ public class MenuController {
 	/** Generates the list view of saved entries on the menu view. */
 	public void switchToMainMenu() {		
 		/** Check to see if the user has any files saved onto their account */
-		if (CurrUser.Load().isEmpty() || CurrUser.Load().get(0).contentEquals("")) {
+		if (CurrUser.Load().isEmpty()) {
 			savedEntries.getItems().add("You have no saved files.");
+			openButton.setDisable(true);
+			delete.setDisable(true);
 		}
-		/** If entries has fileNames, add those entries to the ListView */
+		/** If there are entries in the user's .csv file, add those entries to the ListView */
 		else {
 			savedEntries.getItems().addAll(CurrUser.Load());
+			
+			openButton.setDisable(true);
+			delete.setDisable(true);
 			
 			savedEntries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
 				@Override
 				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-					openButton.setDisable(false);
+					if(!CurrUser.Load().isEmpty()) {
+						openButton.setDisable(false);
+						delete.setDisable(false);
+					}
 				}
 				
 			});
@@ -125,36 +133,33 @@ public class MenuController {
 		stage.show();
 	}
 	
-	/** Method to Test Deleting, will be changed to quit the application once deleting is fixed */
+	/** Deletes Notes from users saved data, and from the GUI */
 	public void deleteEntry(ActionEvent event) throws IOException {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-		alert.setTitle("Quit Program");
-		alert.setContentText("Are you sure you want to quit?");
+		alert.setTitle("Delete File");
+		alert.setContentText("Are you sure you want to delete this file?");
 		Optional<ButtonType> result = alert.showAndWait();
 		
 		if (result.isPresent() && result.get() == ButtonType.OK ) {
-			/** Below is a temporary method of how I am getting the selected entry and then deleting it and removing it from the listView */
 			ObservableList<String> selectedFile = savedEntries.getSelectionModel().getSelectedItems();
-			int selectedID = savedEntries.getSelectionModel().getSelectedIndex();
 			
 			CurrUser.DeleteNote(selectedFile.get(0));
-
 			savedEntries.getItems().clear();
-			savedEntries.getItems().addAll(CurrUser.Load());
-			
-			savedEntries.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+			switchToMainMenu();
+		}
+	}
 
-				@Override
-				public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-					openButton.setDisable(false);
-				}
-				
-				});
-			/** Commented out code is what is used to quit application once delete is fixed 
+	/** Quits the application */
+	public void quitApplication(ActionEvent event) {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Quit Let It Flow Journal");
+		alert.setContentText("Are you sure you want to quit?");
+		Optional<ButtonType> result = alert.showAndWait();
+	
+		if (result.isPresent() && result.get() == ButtonType.OK ) {
 			Platform.exit();
-			System.exit(0); 
-			*/
-			}
+			System.exit(0);
+		}
 	}
 	
 	public void setData(FileManager user) {
@@ -163,7 +168,5 @@ public class MenuController {
 	
 	
 	/*TO-DO:
-	 * Quit
-	 * Delete file
 	 * Generate motivational quote from motivation class*/
 }

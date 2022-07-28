@@ -136,5 +136,6 @@ public class EntryController {
 	}
 	
 	/* TO-DO:
+	 * Confirm going to main menu if entry has not been saved
 	 * Generate motivational quote from motivation class*/
 }
