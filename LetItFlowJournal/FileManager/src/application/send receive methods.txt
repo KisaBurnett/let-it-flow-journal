@@ -1,0 +1,35 @@
+@FXML
+private void sendData(MouseEvent event) {
+  // Step 1
+  User u = new User();
+  // Step 2
+  Node node = (Node) event.getSource();
+  // Step 3
+  Stage stage = (Stage) node.getScene().getWindow();
+  stage.close();
+  try {
+    // Step 4
+    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/SceneA.fxml"));
+    // Step 5
+    stage.setUserData(u);
+    // Step 6
+    Scene scene = new Scene(root);
+    stage.setScene(scene);
+    // Step 7
+    stage.show();
+  } catch (IOException e) {
+    System.err.println(String.format("Error: %s", e.getMessage()));
+  }
+}
+
+@FXML
+private void receiveData(MouseEvent event) {
+  // Step 1
+  Node node = (Node) event.getSource();
+  Stage stage = (Stage) node.getScene().getWindow();
+  // Step 2
+  User u = (User) stage.getUserData();
+  // Step 3
+  String name = u.getName();
+  String email = u.getEmail();
+}
