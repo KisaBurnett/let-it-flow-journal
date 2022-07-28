@@ -3,6 +3,7 @@ package application.controller;
 import java.io.IOException;
 import java.util.Optional;
 import application.model.FileManager;
+import application.model.Motivation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 /** Serves as the controller for the edit entry view of the program.
@@ -135,7 +137,19 @@ public class EntryController {
 		this.CurrUser = user;
 	}
 	
+	/**Pulls a motivational quote from a Motivation object and displays it to the user. */
+	public void motivateEdit(ActionEvent event) throws IOException  {
+		Motivation motivateQuotes = new Motivation();
+		String quoteToDisplay = motivateQuotes.pickQuote();
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Let's Get Inspired");
+		alert.setHeaderText(null);
+		alert.setContentText(quoteToDisplay);
+		
+		alert.showAndWait();
+	}
+	
 	/* TO-DO:
-	 * Confirm going to main menu if entry has not been saved
-	 * Generate motivational quote from motivation class*/
+	 * Confirm going to main menu if entry has not been saved*/
 }

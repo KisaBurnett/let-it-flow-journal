@@ -39,7 +39,7 @@
                     <items>
                       <Button fx:id="mainButton" mnemonicParsing="false" onAction="#backToMain" text="Main Menu" />
                         <Button fx:id="saveButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#saveEntry" text="Save" />
-                        <Button fx:id="motivateButton" layoutX="101.0" layoutY="10.0" mnemonicParsing="false" text="Motivate Me!" />
+                        <Button fx:id="motivateButton" layoutX="101.0" layoutY="10.0" mnemonicParsing="false" onAction="#motivateEdit" text="Motivate Me!" />
                     </items>
                   </ToolBar>
                </children>

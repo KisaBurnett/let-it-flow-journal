@@ -1,5 +1,6 @@
 package application.controller;
 import application.model.FileManager;
+import application.model.Motivation;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
@@ -166,7 +168,16 @@ public class MenuController {
 		this.CurrUser = user;
 	}
 	
-	
-	/*TO-DO:
-	 * Generate motivational quote from motivation class*/
+	/**Pulls a motivational quote from a Motivation object and displays it to the user. */
+	public void motivateMain(ActionEvent event) throws IOException  {
+		Motivation motivateQuotes = new Motivation();
+		String quoteToDisplay = motivateQuotes.pickQuote();
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Let's Get Inspired");
+		alert.setHeaderText(null);
+		alert.setContentText(quoteToDisplay);
+		
+		alert.showAndWait();
+	}
 }
