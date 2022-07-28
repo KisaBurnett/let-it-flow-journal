@@ -17,7 +17,7 @@
             <Button fx:id="CancelButton" layoutX="644.0" layoutY="391.0" mnemonicParsing="false" onAction="#Cancel" text="Cancel" />
             <TextField fx:id="username" layoutX="547.0" layoutY="168.0" />
             <PasswordField fx:id="password" layoutX="547.0" layoutY="313.0" />
-            <Label fx:id="labelText" alignment="CENTER" layoutX="472.0" layoutY="49.0" prefHeight="40.0" prefWidth="300.0" />
+            <Label fx:id="labelText" alignment="CENTER" layoutX="472.0" layoutY="49.0" prefHeight="40.0" prefWidth="300.0" textFill="#dd081e" />
          </children>
       </AnchorPane>
    </center>

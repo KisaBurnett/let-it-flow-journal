@@ -1,7 +1,11 @@
 package application.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import java.io.IOException;
+import java.util.Optional;
 
 import application.model.FileManager;
 import javafx.fxml.FXML;
@@ -9,7 +13,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -51,23 +57,35 @@ public class NewUserController {
 	@FXML
 	public void CreateUser(ActionEvent event) throws IOException, InterruptedException {
 		
-		//newUser object is created.
-		FileManager NewUser1 = new FileManager(username.getText(),password.getText());
+		labelText.setText("");
 		
 		//checks if user account was created successfully, if it is then we go back to login, might change to go to main menu.
-		if(!FileManager.UserExists(username.getText()))
+		if(FileManager.Login(username.getText(),password.getText()) )
 		{
-			labelText.setText("Username taken, please try again");
+			labelText.setText("Username taken, please try again.");
+		}
+		else if(username.getText()== "" || password.getText() == "")
+		{
+			labelText.setText("Please enter a valid username/password.");
 		}
 		else
 		{
-			labelText.setText("Created User successfully");
-			Parent root = FXMLLoader.load(getClass().getResource("/application/view/LoginForm1.fxml"));
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-			scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
+			//newUser object is created.
+			FileManager NewUser1 = new FileManager(username.getText(),password.getText());
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Let it Flow Journal");
+			alert.setContentText("User created successfully, welcome " + username.getText() );
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.isPresent() && result.get() == ButtonType.OK )
+			{
+				Parent root = FXMLLoader.load(getClass().getResource("/application/view/LoginForm1.fxml"));
+				stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+				scene = new Scene(root);
+				stage.setScene(scene);
+				stage.show();
+			}
 		}
+			
 	}
 	
 	//cancel means we go back to the main login screen
