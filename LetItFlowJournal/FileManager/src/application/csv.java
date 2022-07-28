@@ -24,7 +24,6 @@ public class csv {
 
 
     public static void DeleteNote(String filename, String user, String password) {
-        String csvpath = user + ".csv";
         /* loop through csv lines and look for filename in first column
         if found, delete that line */
         try {
@@ -44,7 +43,7 @@ public class csv {
             check if first token is filename, if so, delete that line */
             String[] lines = file_text.split("\n");
             String new_text = user + "\n";
-            for (int i = 0; i < lines.length; i++) {
+            for (int i = 1; i < lines.length; i++) {
                 String[] tokens = lines[i].split(",");
                 if (tokens[0].equals(filename)) {
                     continue;
