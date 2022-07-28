@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1280.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MenuController">
+   <top>
+      <MenuBar fx:id="menuBar" style="-fx-background-color: lightblue; -fx-border-color: #8dbfc9;" BorderPane.alignment="CENTER">
+         <menus>
+            <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quitApplication" text="Quit" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <VBox prefHeight="623.0" prefWidth="374.0" spacing="20.0" style="-fx-background-color: #199db8;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="createEntry" mnemonicParsing="false" onAction="#switchToNewEntry" prefHeight="30.0" prefWidth="130.0" text="Create New Entry" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="openButton" disable="true" mnemonicParsing="false" onAction="#switchToEditEntry" prefHeight="30.0" prefWidth="130.0" text="Open">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteEntry" prefHeight="30.0" prefWidth="130.0" text="Delete" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="motivationBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Motivate Me!" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="logOut" mnemonicParsing="false" onAction="#switchToLoginForm1" prefHeight="30.0" prefWidth="130.0" text="Log Out" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="125.0" top="260.0" />
+         </padding>
+      </VBox>
+   </left>
+   <right>
+      <AnchorPane prefHeight="773.0" prefWidth="908.0" BorderPane.alignment="CENTER">
+         <children>
+            <ListView fx:id="savedEntries" layoutX="-202.0" layoutY="83.0" prefHeight="773.0" prefWidth="906.0" style="-fx-background-color: lightblue;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="120.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="120.0" prefWidth="906.0" text="Past Entries" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
