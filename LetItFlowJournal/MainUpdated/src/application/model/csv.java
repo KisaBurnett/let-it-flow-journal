@@ -186,6 +186,9 @@ public class csv {
 
 
     public static Boolean verifyUser(String username, String password) { /* Need to work on errors to make them more security aligned (not as informative to error) */
+        if (password.length() < 1) {
+            return false;
+        }
         if (file.detectCollision(username, "csv")) {
             String csvFile = file.Read(username, password, "csv");
             /* compare first line to username */
@@ -237,4 +240,3 @@ public class csv {
     }
 
 }
-

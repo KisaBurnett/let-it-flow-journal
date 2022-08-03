@@ -26,7 +26,8 @@ import javafx.stage.Stage;
  * Allows user to compose and edit an entry, as well as save it to a file.
  * Also provides option for motivational pop-up, and allows user to log out or quit the program.
  * 
- * @author Kisa Burnett */
+ * @author Kisa Burnett
+ * @author Matthew Darragh */
 public class EntryController {
 	@FXML
 	private Button mainButton;
