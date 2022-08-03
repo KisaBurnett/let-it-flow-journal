@@ -74,33 +74,37 @@ public class EntryController {
 	/**Switches to the main menu scene from button, passing the file with the list of journal entries back.
 	 * Separate from backToMainMenuBar because the menu item elements must be pulled from the menu bar. */
 	public void backToMain(ActionEvent event) throws IOException, InterruptedException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/MainScreen.fxml"));
-		root = loader.load();
+		if (checkForSave()) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/MainScreen.fxml"));
+			root = loader.load();
 		
-		MenuController Controller = loader.getController();
-		Controller.setData(CurrUser);
-		Controller.switchToMainMenu();	
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+			MenuController Controller = loader.getController();
+			Controller.setData(CurrUser);
+			Controller.switchToMainMenu();	
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
 		
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();	
+		}
 	}
 	
 	/**Switches to the main menu scene from menu bar, passing the file with the list of journal entries back.
 	 * Separate from backToMain because the menu item elements must be pulled from the menu bar. */
 	public void backToMainMenuBar(ActionEvent event) throws IOException {		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/MainScreen.fxml"));
-		root = loader.load();
+		if (checkForSave()) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/MainScreen.fxml"));
+			root = loader.load();
 		
-		MenuController Controller = loader.getController();
-		Controller.setData(CurrUser);
-		Controller.switchToMainMenu();		
-		stage = (Stage)menuBar.getScene().getWindow(); 
+			MenuController Controller = loader.getController();
+			Controller.setData(CurrUser);
+			Controller.switchToMainMenu();		
+			stage = (Stage)menuBar.getScene().getWindow(); 
 		
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
 	
 	/**Saves the current form contents to the files containing entry titles and entry text. */
@@ -150,6 +154,22 @@ public class EntryController {
 		alert.showAndWait();
 	}
 	
+	public boolean checkForSave() {
+		if (CurrUser.DoesFileExist(entryTitle.getText(), "txt") && CurrUser.ReadNote(entryTitle.getText()).contentEquals(entryText.getText())) {
+			return true;	
+		}
+		else {
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Save File");
+			alert.setContentText("Are you sure you want to go back to the Main Menu without saving?");
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if (result.isPresent() && result.get() == ButtonType.OK ) {
+				return true;
+			}
+			return false;
+		}
+	}
 	/* TO-DO:
 	 * Confirm going to main menu if entry has not been saved*/
 }
