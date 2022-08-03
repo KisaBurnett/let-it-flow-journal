@@ -65,14 +65,14 @@ public class LoginController {
 			
 			wrongLogin.setText("");
 
-			//check to see if user exists and goes to main menu if successful
+			/** check to see if user exists and goes to main menu if successful */
 			if (FileManager.Login(username.getText(),password.getText())) {
 				
-				//object filemanager created with username and password
+				/** object filemanager created with username and password */
 				FileManager CurrUser = new FileManager(username.getText(),password.getText());
 				
 				wrongLogin.setText("Successful log in!");
-				//loads main screen
+				/** loads main screen */
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/MainScreen.fxml"));
 				root = loader.load();
 				MenuController Controller = loader.getController();

@@ -56,7 +56,7 @@ public class NewUserController {
 		labelText.setText("");
 		
 		/** checks if user account was created successfully, if it is then we go back to login, might change to go to main menu. */
-		if(FileManager.Login(username.getText(),password.getText()) )
+		if(FileManager.UserExists(username.getText()) )
 		{
 			labelText.setText("Username taken, please try again.");
 		}
