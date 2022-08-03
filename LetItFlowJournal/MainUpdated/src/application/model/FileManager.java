@@ -3,6 +3,8 @@ package application.model;
 
 import java.util.ArrayList;
 
+/**@author Julian Beltz */
+
 public class FileManager {
 
     private String user;

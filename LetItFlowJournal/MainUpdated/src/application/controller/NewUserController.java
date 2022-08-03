@@ -18,7 +18,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-/*
+/**
  * New User Controller, user can create a new account or press cancel to move back to the login screen.
  * 
  * @author Royd Salinas
@@ -49,13 +49,13 @@ public class NewUserController {
 	@FXML
 	private Label labelText;
 	
-	//if a create user button is pressed we call FileManager to set new userdata and is thrown to project folder.
+	/** if a create user button is pressed we call FileManager to set new userdata and is thrown to project folder. */
 	@FXML
 	public void CreateUser(ActionEvent event) throws IOException, InterruptedException {
 		
 		labelText.setText("");
 		
-		//checks if user account was created successfully, if it is then we go back to login, might change to go to main menu.
+		/** checks if user account was created successfully, if it is then we go back to login, might change to go to main menu. */
 		if(FileManager.Login(username.getText(),password.getText()) )
 		{
 			labelText.setText("Username taken, please try again.");
@@ -66,7 +66,7 @@ public class NewUserController {
 		}
 		else
 		{
-			//newUser object is created.
+			/** newUser object is created. */
 			FileManager NewUser1 = new FileManager(username.getText(),password.getText());
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Let it Flow Journal");
@@ -83,7 +83,7 @@ public class NewUserController {
 		}
 	}
 	
-	//cancel means we go back to the main login screen
+	/** cancel means we go back to the main login screen */
 	@FXML
 	public void Cancel(ActionEvent event) throws IOException {
 		

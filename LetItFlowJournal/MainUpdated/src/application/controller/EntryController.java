@@ -171,6 +171,4 @@ public class EntryController {
 			return false;
 		}
 	}
-	/* TO-DO:
-	 * Confirm going to main menu if entry has not been saved*/
 }
