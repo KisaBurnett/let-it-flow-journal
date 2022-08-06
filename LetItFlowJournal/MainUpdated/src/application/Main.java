@@ -15,8 +15,6 @@ public class Main extends Application {
 			Parent root = FXMLLoader.load(getClass().getResource("/application/view/LoginForm1.fxml"));
 			
 			Scene scene = new Scene(root,1280,780);
-			/**Had lots a problem getting the window size to be adjustable, caused tears and mutation of images used, 
-			 * so i set to unresizeable we can talk about setting a consistent scene size throughout, or change in specific areas.*/
 			primaryStage.setResizable(false);
 			primaryStage.setTitle("Let it Flow Journal");
 			primaryStage.setScene(scene);
