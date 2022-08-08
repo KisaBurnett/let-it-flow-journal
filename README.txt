@@ -22,6 +22,13 @@
 |  - Select "Archive File" and click "Next".                                       |
 |  - Click "Browse..." next to "From archive file:" to locate the downloaded file. |
 |  - Click "Finish".                                                               |
+|  - Expand the folder LetItFlowJournal_SouthWestTranscribers.                     |
+|  - Click and drag the contents of the src folder located inside the downloaded   |
+|    LetItFlowJournal_SouthWestTranscribers archive into the src folder of your    |
+|    created project.                                                              |
+|  - Click and drag motivation.txt into the main folder of your project.           |
+|  - Expand the project's src folder, then the application package, and open       |
+|    the Main.java file.                                                           |
 |  - Click "Run" in the top menu toolbar, then click "Run" in the drop-down menu.  |
 +----------------------------------------------------------------------------------+
 |                            2. Creating a New User                                |
