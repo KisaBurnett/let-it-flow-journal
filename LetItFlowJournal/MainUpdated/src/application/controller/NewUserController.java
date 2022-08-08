@@ -60,7 +60,7 @@ public class NewUserController {
 		{
 			labelText.setText("Username taken, please try again.");
 		}
-		else if(username.getText()== "" || password.getText() == "")
+		else if(username.getText().equals("") || password.getText().equals(""))
 		{
 			labelText.setText("Please enter a valid username/password.");
 		}
