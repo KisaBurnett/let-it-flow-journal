@@ -84,7 +84,9 @@ public class MenuController {
 		}
 	}
 
-	/** Switches to the LoginForm scene so user can log in as a different user. */
+	/** Switches to the LoginForm scene so user can log in as a different user.
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click). 
+	 * @throws IOException if the file doesn't exist. */
 	public void switchToLoginForm1(ActionEvent event) throws IOException {
 		/** Alert to confirm that user wants to log out. */
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -101,7 +103,9 @@ public class MenuController {
 		}
 	}
 	
-	/** Switches to the EditEntry scene so user can edit an entry. */
+	/** Switches to the EditEntry scene so user can edit an entry. 
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click). 
+	 * @throws IOException if the file doesn't exist. */
 	public void switchToEditEntry(ActionEvent event) throws IOException {
 		String fileName = savedEntries.getSelectionModel().getSelectedItem();
 		
@@ -119,7 +123,9 @@ public class MenuController {
 		stage.show();
 	}
 	
-	/** Switches to EditEntry and sets up blank form for user to compose and save a new entry. */
+	/** Switches to EditEntry and sets up blank form for user to compose and save a new entry. 
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click). 
+	 * @throws IOException if the file doesn't exist. */
 	public void switchToNewEntry(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/EditEntry.fxml"));
 		root = loader.load();
@@ -135,7 +141,9 @@ public class MenuController {
 		stage.show();
 	}
 	
-	/** Deletes Notes from users saved data, and from the GUI */
+	/** Deletes Notes from users saved data, and from the GUI 
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click). 
+	 * @throws IOException if the file doesn't exist. */
 	public void deleteEntry(ActionEvent event) throws IOException {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("Delete File");
@@ -151,7 +159,8 @@ public class MenuController {
 		}
 	}
 
-	/** Quits the application */
+	/** Quits the application 
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click). */
 	public void quitApplication(ActionEvent event) {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("Quit Let It Flow Journal");
@@ -164,11 +173,15 @@ public class MenuController {
 		}
 	}
 	
+	/**Passes the user data to this scene from another scene.
+	 * @param user FileManager object containing the current user's entry information. */
 	public void setData(FileManager user) {
 		this.CurrUser = user;
 	}
 	
-	/**Pulls a motivational quote from a Motivation object and displays it to the user. */
+	/**Pulls a motivational quote from a Motivation object and displays it to the user. 
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click). 
+	 * @throws IOException if the file doesn't exist. */
 	public void motivateMain(ActionEvent event) throws IOException  {
 		Motivation motivateQuotes = new Motivation();
 		String quoteToDisplay = motivateQuotes.pickQuote();

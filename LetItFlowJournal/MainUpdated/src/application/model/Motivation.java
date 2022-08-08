@@ -23,20 +23,21 @@ public class Motivation {
 	
 	/**Gets the ArrayList of statements gathered from the file containing these statements and
 	 * passes it back to the caller.
-	 * @return motivationalQuotes ArrayList<String> which contains the motivational statements. */
+	 * @return motivationalQuotes ArrayList which contains the motivational statements. */
 	public ArrayList<String> getMotivationalQuotes() {
 		return motivationalQuotes;
 	}
 
 	/**Passes in an ArrayList to the class's motivationalQuotes variable.
-	 * @param motivationalQuotes ArrayList<String> which contains the motivational statements. */
+	 * @param motivationalQuotes ArrayList which contains the motivational statements. */
 	public void setMotivationalQuotes(ArrayList<String> motivationalQuotes) {
 		this.motivationalQuotes = motivationalQuotes;
 	}
 	
 	/**Retrieves statements from a file and passes it into an ArrayList, which is returned back to the caller.
 	 * @param fileName String with the name of the file the method should utilize.
-	 * @return quotes ArrayList<String> the collection of statements gathered from the file. */
+	 * @return quotes ArrayList the collection of statements gathered from the file. 
+	 * @throws IOException if the file doesn't exist. */
 	public ArrayList<String> loadQuotes(String fileName) throws IOException {
 		ArrayList<String> quotes = new ArrayList<String>();
 		File quoteList = new File(fileName);

@@ -56,16 +56,14 @@ public class EntryController {
 	private FileManager CurrUser;
 	
 	/** Pulls up an existing entry for the user to view and edit.
-	 * @param fileName String name of the file to be worked on by this controller.
-	 * @param allEntries String name of .csv list of entry names. */
+	 * @param fileName String name of the file to be worked on by this controller.*/
 	public void editEntry(String fileName) {
 		/** Place previously saved entry in the editable text areas.*/
 		entryTitle.setText(fileName);
 		entryText.setText(CurrUser.ReadNote(fileName));
 	}
 	
-	/** Pulls up a blank form for the user to work in and save.
-	 * @param allEntries String name of .csv list of entry names. */
+	/** Pulls up a blank form for the user to work in and save. */
 	public void newEntry() {
 		/** Empties form for new composition by user. */
 		entryTitle.setText("");
@@ -73,7 +71,10 @@ public class EntryController {
 	}
 	
 	/**Switches to the main menu scene from button, passing the file with the list of journal entries back.
-	 * Separate from backToMainMenuBar because the menu item elements must be pulled from the menu bar. */
+	 * Separate from backToMainMenuBar because the menu item elements must be pulled from the menu bar. 
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click). 
+	 * @throws IOException if the file doesn't exist. 
+	 * @throws InterruptedException if the scene switch fails. */
 	public void backToMain(ActionEvent event) throws IOException, InterruptedException {
 		if (checkForSave()) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/MainScreen.fxml"));
@@ -91,7 +92,9 @@ public class EntryController {
 	}
 	
 	/**Switches to the main menu scene from menu bar, passing the file with the list of journal entries back.
-	 * Separate from backToMain because the menu item elements must be pulled from the menu bar. */
+	 * Separate from backToMain because the menu item elements must be pulled from the menu bar. 
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click). 
+	 * @throws IOException if the file doesn't exist. */
 	public void backToMainMenuBar(ActionEvent event) throws IOException {		
 		if (checkForSave()) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/MainScreen.fxml"));
@@ -108,7 +111,9 @@ public class EntryController {
 		}
 	}
 	
-	/**Saves the current form contents to the files containing entry titles and entry text. */
+	/**Saves the current form contents to the files containing entry titles and entry text. 
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click). 
+	 * @throws IOException if the file doesn't exist. */
 	public void saveEntry(ActionEvent event) throws IOException{
 		/** If the entry title field is not blank, proceed to performing checks to save file. */
 		if(!entryTitle.getText().equals("")) {
@@ -138,11 +143,15 @@ public class EntryController {
 		}
 	}
 	
+	/**Passes the user data to this scene from another scene.
+	 * @param user FileManager object containing the current user's entry information. */
 	public void setEntryData(FileManager user) {
 		this.CurrUser = user;
 	}
 	
-	/**Pulls a motivational quote from a Motivation object and displays it to the user. */
+	/**Pulls a motivational quote from a Motivation object and displays it to the user. 
+	 * @param event ActionEvent the event triggering the function (in this case, a mouse click).
+	 * @throws IOException if the file doesn't exist. */
 	public void motivateEdit(ActionEvent event) throws IOException  {
 		Motivation motivateQuotes = new Motivation();
 		String quoteToDisplay = motivateQuotes.pickQuote();
@@ -155,6 +164,8 @@ public class EntryController {
 		alert.showAndWait();
 	}
 	
+	/** Checks if the entry text has changed since the last save and pops up an alert if it has.
+	 * @return boolean whether or not the text has changed, and if it should be saved. */
 	public boolean checkForSave() {
 		if (CurrUser.DoesFileExist(entryTitle.getText(), "txt") && CurrUser.ReadNote(entryTitle.getText()).contentEquals(entryText.getText())) {
 			return true;	

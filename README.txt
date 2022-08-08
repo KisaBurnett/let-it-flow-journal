@@ -15,7 +15,14 @@
 |                  9. Quitting                                                     |
 +----------------------------------------------------------------------------------+
 |                           1. Importing to Eclipse                                |
-|                                                                                  |
+|  - Download the zip archive file LetItFlowJournal_SouthWestTranscribers from     |
+|    https://github.com/KisaBurnett/let-it-flow-journal                            |
+|  - Create a new project in Eclipse.                                              |
+|  - Right-click the top project folder, then click "Import".                      |
+|  - Select "Archive File" and click "Next".                                       |
+|  - Click "Browse..." next to "From archive file:" to locate the downloaded file. |
+|  - Click "Finish".                                                               |
+|  - Click "Run" in the top menu toolbar, then click "Run" in the drop-down menu.  |
 +----------------------------------------------------------------------------------+
 |                            2. Creating a New User                                |
 |  - Click "New User".                                                             |
